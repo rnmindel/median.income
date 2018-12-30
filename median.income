@@ -1,0 +1,29 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+rm(list = ls())
+setwd("/Users/rebeccamindel/Documents/thesis/")
+all.data = read.csv("/Users/rebeccamindel/Documents/thesis/2010IMSData.csv", header = T)
+all.income = read.csv("/Users/rebeccamindel/Documents/thesis/11income.csv", header = T)
+crosswalk10 = read.csv("/Users/rebeccamindel/Documents/thesis/ZipHsaHrr10.csv", header = T)
+```
+
+Calculate Median income by HRR
+```{r}
+#create dataframe with state, zip code, income
+income.df = all.income[, c("STATE", "ZIPCODE", "A00100")] #column A00100 contains income value for each zip code 
+
+#add HRR and HSA information to income dataframe 
+income.hrr1 = merge(income.df,crosswalk10, by.x = "ZIPCODE", by.y = "zipcode10")
+income.hrr = subset(income.hrr1, select = -c(hsastate,hrrstate)) #income.hrr constains zipcode, income, hsa, hrr
+
+#calculate median income by hrr using income.hrr
+avg.income.hrr = as.data.frame(tapply(income.hrr$A00100, INDEX = income.hrr$hrrnum, FUN = median)) #avg.income.hrr contains median income of each HRR
+
+#num.name = income.hrr[, c("STATE", "hrrnum", "hrrcity")]
+#income.hrr2 = merge(avg.income.hrr, num.name, by.x = , by.y = "hrrnum")
+```
+
