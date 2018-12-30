@@ -20,10 +20,10 @@ income.df = all.income[, c("STATE", "ZIPCODE", "A00100")] #column A00100 contain
 income.hrr1 = merge(income.df,crosswalk10, by.x = "ZIPCODE", by.y = "zipcode10")
 income.hrr = subset(income.hrr1, select = -c(hsastate,hrrstate)) #income.hrr constains zipcode, income, hsa, hrr
 
-#calculate median income by hrr using income.hrr
+#calculate median income by HRR using income.hrr
+#create dataframe that contains 3 variables HRR, state, medianincome
 avg.income.hrr = as.data.frame(tapply(income.hrr$A00100, INDEX = income.hrr$hrrnum, FUN = median)) #avg.income.hrr contains median income of each HRR
-
-#num.name = income.hrr[, c("STATE", "hrrnum", "hrrcity")]
-#income.hrr2 = merge(avg.income.hrr, num.name, by.x = , by.y = "hrrnum")
+num.name = income.hrr[, c("STATE", "hrrnum", "hrrcity")]
+income.hrr2 = merge(avg.income.hrr, num.name, by.x = , by.y = "hrrnum")
 ```
 
